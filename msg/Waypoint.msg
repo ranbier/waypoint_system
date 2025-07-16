@@ -1,4 +1,4 @@
-int32 idex
+int32 index
 int32 path_index
 geometry_msgs/Pose pose
 float64 velocity

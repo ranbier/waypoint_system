@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(waypoint_system)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+## Compile as C++17, supported in ROS Kinetic and newer
+add_compile_options(-std=c++17)
+
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -107,9 +108,10 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES waypoint_manager
   CATKIN_DEPENDS roscpp std_msgs geometry_msgs message_runtime
 )
-
 ###########
 ## Build ##
 ###########
@@ -205,7 +207,10 @@ add_library(${PROJECT_NAME}
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-target_link_libraries(your_node_name
-  waypoint_manager
+add_executable(waypoint_loader_node
+  src/waypoint_loader_node.cpp
+)
+target_link_libraries(waypoint_loader_node
+  waypoint_system
   ${catkin_LIBRARIES}
 )

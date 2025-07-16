@@ -1,0 +1,16 @@
+# ROS/Build files
+build/
+devel/
+install/
+log/
+
+# CMake
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CMakeCache.txt
+
+# 기타
+*.swp
+*.swo
+*.~ 

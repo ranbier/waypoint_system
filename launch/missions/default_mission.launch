@@ -1,0 +1,33 @@
+<launch>
+  <!-- Argument to specify waypoint CSV directory -->
+  <arg name="waypoint_directory" default="$(find waypoint_system)/data/default" />
+
+  <!-- Load base/common config -->
+  <rosparam file="$(find waypoint_system)/config/base.yaml" command="load" />
+
+  <!-- Load mission-specific config -->
+  <rosparam file="$(find waypoint_system)/config/missions/default.yaml" command="load" />
+
+  <!-- Waypoint Loader Node -->
+  <node name="waypoint_loader_node"
+        pkg="waypoint_system"
+        type="waypoint_loader_node"
+        output="screen">
+    <param name="waypoint_directory" value="$(arg waypoint_directory)" />
+  </node>
+
+  <!-- Path Visualizer Node -->
+  <node name="path_visualizer_node"
+        pkg="waypoint_system"
+        type="path_visualizer_node"
+        output="screen">
+    <param name="waypoint_directory" value="$(arg waypoint_directory)" />
+  </node>
+
+  <!-- RViz 자동 실행 -->
+  <node name="rviz"
+        pkg="rviz"
+        type="rviz"
+        args="-d $(find waypoint_system)/rviz/path_visualizer.rviz"
+        output="screen" />
+</launch>

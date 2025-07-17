@@ -1,0 +1,9 @@
+# config/missions/default.yaml
+
+waypoint_directory: "/home/kuuve/catkin_ws/src/waypoint_system/data/default"
+default_velocity: 3.0
+
+state_transitions:
+  - from: 0
+    to: 1
+    trigger_distance: 10.0

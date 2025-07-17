@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <filesystem>
 
 namespace fs = std::filesystem;
 
@@ -61,7 +62,6 @@ std::vector<Waypoint> WaypointManager::loadCsvFile(const std::string& filepath) 
     wp.mission_state = std::stoi(cell);
 
     // 나머지 필드는 기본값으로 설정
-    wp.pose.position.z = 0.0;
     wp.velocity = 0.0;
     wp.heading = 0.0;
     wp.curvature = 0.0;

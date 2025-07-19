@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
   std::string waypoint_dir;
   nh.param<std::string>("waypoint_directory", waypoint_dir, "");
   if (waypoint_dir.empty()) {
-    ROS_ERROR("[path_visualizer_node] No waypoint_directory specified.");
+    ROS_ERROR("[path_visualizer_node] No waypoint_directory specified.(Directory Error)");
     return 1;
   }
 

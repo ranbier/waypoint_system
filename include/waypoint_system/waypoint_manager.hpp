@@ -15,6 +15,12 @@ public:
   // 주어진 디렉토리 경로에서 모든 .csv 파일 로드
   bool loadWaypointsFromDirectory(const std::string& directory);
 
+  int findClosestWaypoint(const geometry_msgs::Pose& pose) const;
+
+  std::vector<waypoint_system::Waypoint> extractLocalPath(int start_index, int size) const;
+
+  waypoint_system::Waypoint getWaypoint(int index) const;
+
   // 모든 경로 반환
   const std::vector<std::vector<waypoint_system::Waypoint>>& getAllPaths() const;
 

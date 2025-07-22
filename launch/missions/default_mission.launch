@@ -16,6 +16,13 @@
     <param name="waypoint_directory" value="$(arg waypoint_directory)" />
   </node>
 
+  <node name="local_path_publisher_node"
+        pkg="waypoint_system"
+        type="local_path_publisher_node"
+        output="screen">
+    <param name="waypoint_directory" value="$(arg waypoint_directory)" />
+  </node>
+
   <!-- Path Visualizer Node -->
   <node name="path_visualizer_node"
         pkg="waypoint_system"

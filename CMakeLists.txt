@@ -52,3 +52,9 @@ add_dependencies(waypoint_loader_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 add_executable(path_visualizer_node src/path_visualizer_node.cpp)
 target_link_libraries(path_visualizer_node waypoint_manager ${catkin_LIBRARIES})
 add_dependencies(path_visualizer_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+# local_path_publisher_node
+add_executable(local_path_publisher_node src/local_path_publisher_node.cpp)
+target_link_libraries(local_path_publisher_node waypoint_manager ${catkin_LIBRARIES})
+add_dependencies(local_path_publisher_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+

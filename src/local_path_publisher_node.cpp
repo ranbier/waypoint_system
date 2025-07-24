@@ -20,7 +20,7 @@ public:
       ros::shutdown();
     }
 
-    pose_sub_ = nh_.subscribe("/gps/odom", 1, &LocalPathPublisher::odomCallback, this);
+    pose_sub_ = nh_.subscribe("/odom", 10, &LocalPathPublisher::odomCallback, this);
     path_pub_ = nh_.advertise<nav_msgs::Path>("/local_path", 1);
     current_pose_pub_ = nh_.advertise<visualization_msgs::Marker>("/current_pose_marker", 1);
     trajectory_path_pub_ = nh_.advertise<nav_msgs::Path>("/trajectory_path", 1);
@@ -58,9 +58,9 @@ private:
     arrow.action = visualization_msgs::Marker::ADD;
     arrow.pose = current_pose;
 
-    arrow.scale.x = 2.0;  // 길이
-    arrow.scale.y = 0.3;
-    arrow.scale.z = 0.3;
+    arrow.scale.x = 3.0;  // 길이
+    arrow.scale.y = 1.0;
+    arrow.scale.z = 1.0;
 
     arrow.color.r = 0.2;
     arrow.color.g = 1.0;

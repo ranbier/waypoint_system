@@ -7,6 +7,8 @@
 
   <!-- Load mission-specific config -->
   <rosparam file="$(find waypoint_system)/config/missions/default.yaml" command="load" />
+  
+  <node pkg="tf" type="static_transform_publisher" name="gps_to_map_tf" args="0 0 0 0 0 0 map gps 100" />
 
   <!-- Waypoint Loader Node -->
   <node name="waypoint_loader_node"
@@ -37,4 +39,6 @@
         type="rviz"
         args="-d $(find waypoint_system)/rviz/path_visualizer.rviz"
         output="screen" />
+
+
 </launch>

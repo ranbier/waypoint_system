@@ -2,6 +2,7 @@
 
 # 공통 설정값 (모든 대회 공통)
 
-path_publish_size: 200         # local path로 publish할 waypoint 수
+path_publish_size: 200        # local path로 publish할 waypoint 수
 use_heading: true             # heading 값을 사용할지 여부
 use_curvature: true           # 곡률 데이터를 사용할지 여부
+loop_path: true               # 경로가 루프 형태인지 여부

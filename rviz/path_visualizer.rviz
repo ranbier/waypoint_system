@@ -94,7 +94,7 @@ Visualization Manager:
       Marker Topic: /current_pose_marker
       Name: Current Pose Marker
       Namespaces:
-        {}
+        current_pose: true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -148,7 +148,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.12500010430812836
+      Angle: 1.0149999856948853
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -158,10 +158,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 2.9345788955688477
+      Scale: 2.4648168087005615
       Target Frame: <Fixed Frame>
-      X: 360722.59375
-      Y: 4066026
+      X: 313561.65625
+      Y: 4161667.75
     Saved: ~
 Window Geometry:
   Displays:
@@ -179,5 +179,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 311
-  Y: 85
+  X: 510
+  Y: 135

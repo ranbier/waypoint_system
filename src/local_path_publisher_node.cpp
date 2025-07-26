@@ -4,6 +4,7 @@
 #include <visualization_msgs/Marker.h>
 #include <waypoint_system/waypoint_manager.hpp>
 #include <tf/tf.h>
+#include <std_msgs/Int32.h>
 
 namespace wp = waypoint_system;
 
@@ -14,13 +15,16 @@ public:
 
     nh_.param("waypoint_directory", waypoint_directory_, std::string(""));
     nh_.param("path_publish_size", path_publish_size_, 50);
+    nh_.param("loop_path", loop_path, false);
 
     if (!manager_.loadWaypointsFromDirectory(waypoint_directory_)) {
       ROS_ERROR("[local_path_publisher] Failed to load waypoint CSV files.");
       ros::shutdown();
     }
+    manager_.setLoopEnabled(loop_path);
 
-    pose_sub_ = nh_.subscribe("/gps/odom", 1, &LocalPathPublisher::odomCallback, this);
+    pose_sub_ = nh_.subscribe("/odom", 10, &LocalPathPublisher::odomCallback, this);
+    path_number_sub_ = nh_.subscribe("/path_number", 1, &LocalPathPublisher::pathNumberCallback, this);
     path_pub_ = nh_.advertise<nav_msgs::Path>("/local_path", 1);
     current_pose_pub_ = nh_.advertise<visualization_msgs::Marker>("/current_pose_marker", 1);
     trajectory_path_pub_ = nh_.advertise<nav_msgs::Path>("/trajectory_path", 1);
@@ -79,8 +83,14 @@ private:
     trajectory_path_pub_.publish(trajectory_path_);
   }
 
+  void pathNumberCallback(const std_msgs::Int32::ConstPtr& msg) {
+    manager_.setActivePathNumber(msg->data);
+    ROS_INFO("[local_path_publisher] Active path number changed to %d", msg->data);
+  }
+
   ros::NodeHandle nh_;
   ros::Subscriber pose_sub_;
+  ros::Subscriber path_number_sub_;
   ros::Publisher path_pub_;
   ros::Publisher current_pose_pub_;
   ros::Publisher trajectory_path_pub_;
@@ -91,6 +101,7 @@ private:
   wp::WaypointManager manager_;
   std::string waypoint_directory_;
   int path_publish_size_;
+  bool loop_path;
 };
 
 int main(int argc, char** argv) {

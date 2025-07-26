@@ -78,7 +78,7 @@ std::vector<Waypoint> WaypointManager::loadCsvFile(const std::string& filepath) 
 int WaypointManager::findClosestWaypoint(const geometry_msgs::Pose& pose) const {
   if (all_paths_.empty()) return -1;
 
-  const auto& path = all_paths_[0];
+  const auto& path = all_paths_[path_number_];
   int closest_index = -1;
   double min_dist = std::numeric_limits<double>::max();
 
@@ -97,13 +97,19 @@ int WaypointManager::findClosestWaypoint(const geometry_msgs::Pose& pose) const 
 
 std::vector<Waypoint> WaypointManager::extractLocalPath(int start_index, int size) const {
   std::vector<Waypoint> local;
-
   if (all_paths_.empty()) return local;
-  const auto& path = all_paths_[0];
 
-  int end = std::min(static_cast<int>(path.size()), start_index + size);
-  for (int i = start_index; i < end; ++i) {
-    local.push_back(path[i]);
+  const auto& path = all_paths_[path_number_];
+  int path_size = static_cast<int>(path.size());
+
+  for (int i = 0; i < size; ++i) {
+    int idx = start_index + i;
+    if (loop_enabled_) {
+      idx = idx % path_size;
+    } else if (idx >= path_size) {
+      break;
+    }
+    local.push_back(path[idx]);
   }
 
   return local;
@@ -125,6 +131,22 @@ const std::vector<std::vector<Waypoint>>& WaypointManager::getAllPaths() const {
 
 const std::vector<std::string>& WaypointManager::getPathNames() const {
   return path_names_;
+}
+
+void WaypointManager::setLoopEnabled(bool enabled) {
+  loop_enabled_ = enabled;
+}
+
+void WaypointManager::setActivePathNumber(int number) {
+  if (number >= 0 && number < all_paths_.size()) {
+    path_number_ = number;
+  } else {
+    ROS_WARN("[WaypointManager] Invalid path number: %d", number);
+  }
+}
+
+int WaypointManager::getActivePathNumber() const {
+  return path_number_;
 }
 
 }  // namespace waypoint_system

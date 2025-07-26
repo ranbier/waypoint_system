@@ -1,6 +1,7 @@
 // waypoint_manager.hpp
 #pragma once
 
+#include <ros/ros.h>
 #include <string>
 #include <vector>
 #include <filesystem>
@@ -27,9 +28,17 @@ public:
   // 경로 이름들 반환 (디버깅용)
   const std::vector<std::string>& getPathNames() const;
 
+  void setLoopEnabled(bool enabled);
+
+  void setActivePathNumber(int number);
+
+  int getActivePathNumber() const;
+
 private:
   std::vector<std::vector<waypoint_system::Waypoint>> all_paths_;
   std::vector<std::string> path_names_;
+  bool loop_enabled_ = false;
+  int path_number_ = 0;
 
   // index, x, y, mission_state 형식의 CSV 파일 파싱
   std::vector<waypoint_system::Waypoint> loadCsvFile(const std::string& filepath);

@@ -93,7 +93,7 @@ private:
   }
 
   void pathNumberCallback(const std_msgs::Int32::ConstPtr& msg) {
-  manager_.setActivePathNumber(msg->data);
+    manager_.setActivePathNumber(msg->data);
     ROS_INFO("[local_path_publisher] Active path number changed to %d", msg->data);
   }
 

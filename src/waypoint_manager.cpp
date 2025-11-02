@@ -191,6 +191,4 @@ int WaypointManager::getActivePathNumber() const {
   return path_number_;
 }
 
-
-
 }  // namespace waypoint_system

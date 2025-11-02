@@ -8,6 +8,7 @@
 // #include <algorithm>
 
 namespace fs = std::filesystem;
+using namespace std;
 
 namespace waypoint_system {
 
@@ -93,10 +94,46 @@ int WaypointManager::findClosestWaypoint(const geometry_msgs::Pose& pose) const 
       min_dist = dist;
       closest_index = i;
     }
+    
   }
+  
+  if (ex_closest_index >= 0 && ex_closest_index < path_size && (closest_index != path_size -1)) {
+    int diff = std::abs(closest_index - ex_closest_index);
+    if (loop_enabled_) diff = std::min(diff, path_size - diff); // 원형 거리
+  
+    if (diff > 50) {
+      return ex_closest_index;
+    }
+  
+  } else if (loop_enabled_ && closest_index == path_size - 1) {
+    closest_index = getLoopIndex(path);
+    cout << "Looping to index: " << closest_index << endl;
+  }
+  ex_closest_index = closest_index;
 
   return closest_index;
 }
+
+int WaypointManager::getLoopIndex(const std::vector<Waypoint>& path) const {
+
+  const int path_size = static_cast<int>(path.size());
+  if (path_size == 0) return -1;
+
+  int closest_index = -1;
+  double min_dist = std::numeric_limits<double>::max();
+  for (int i = 0; i < path_size / 2; ++i) {
+      double dx = path[path_size - 1].pose.position.x - path[i].pose.position.x;
+      double dy = path[path_size - 1].pose.position.y - path[i].pose.position.y;
+      double d2 = dx * dx + dy * dy;
+      if (d2 < min_dist) {
+        min_dist = d2;
+        closest_index = i;
+      }
+    }
+
+    return closest_index;
+}
+
 
 // Progressive search and auto-wrap logic removed to restore original behavior
 

@@ -43,8 +43,7 @@ private:
 
     // Terminal logging: current pose and closest waypoint info
     const wp::Waypoint closest_wp = manager_.getWaypoint(closest_index);
-    ROS_INFO_THROTTLE(0.1,
-                      "[local_path_publisher] pose=(%.3f, %.3f)  closest_idx=%d  wp=(%.3f, %.3f)",
+    ROS_INFO("[local_path_publisher] pose=(%.3f, %.3f)  closest_idx=%d  wp=(%.3f, %.3f)",
                       current_pose.position.x,
                       current_pose.position.y,
                       closest_index,

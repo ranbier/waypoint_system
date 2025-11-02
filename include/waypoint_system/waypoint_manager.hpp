@@ -17,6 +17,7 @@ public:
   bool loadWaypointsFromDirectory(const std::string& directory);
 
   int findClosestWaypoint(const geometry_msgs::Pose& pose) const;
+  int getLoopIndex(const std::vector<Waypoint>& path) const;
 
   std::vector<waypoint_system::Waypoint> extractLocalPath(int start_index, int size) const;
 
@@ -33,6 +34,7 @@ public:
   void setActivePathNumber(int number);
 
   int getActivePathNumber() const;
+  mutable int ex_closest_index = -1;
 
 private:
   std::vector<std::vector<waypoint_system::Waypoint>> all_paths_;

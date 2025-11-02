@@ -6,7 +6,7 @@
   <rosparam file="$(find waypoint_system)/config/base.yaml" command="load" />
 
   <!-- Load mission-specific config -->
-  <rosparam file="$(find waypoint_system)/config/missions/default.yaml" command="load" />
+  <rosparam file="$(find waypoint_system)/config/missions/test.yaml" command="load" />
   
   <node pkg="tf" type="static_transform_publisher" name="gps_to_map_tf" args="0 0 0 0 0 0 map gps 100" />
 
@@ -16,17 +16,16 @@
         type="waypoint_loader_node"
         output="screen">
     <rosparam file="$(find waypoint_system)/config/base.yaml" command="load" />
-    <rosparam file="$(find waypoint_system)/config/missions/default.yaml" command="load" />
+    <rosparam file="$(find waypoint_system)/config/missions/test.yaml" command="load" />
   </node>
 
   <node name="local_path_publisher_node"
         pkg="waypoint_system"
         type="local_path_publisher_node"
         output="screen">
-    <param name="waypoint_directory" value="$(arg waypoint_directory)" />
     <!-- Load configs directly into this node's private namespace so YAML overrides defaults -->
     <rosparam file="$(find waypoint_system)/config/base.yaml" command="load" />
-    <rosparam file="$(find waypoint_system)/config/missions/default.yaml" command="load" />
+    <rosparam file="$(find waypoint_system)/config/missions/test.yaml" command="load" />
   </node>
 
   <!-- Path Visualizer Node -->
@@ -35,7 +34,7 @@
         type="path_visualizer_node"
         output="screen">
     <rosparam file="$(find waypoint_system)/config/base.yaml" command="load" />
-    <rosparam file="$(find waypoint_system)/config/missions/default.yaml" command="load" />
+    <rosparam file="$(find waypoint_system)/config/missions/test.yaml" command="load" />
   </node>
 
   <!-- RViz 자동 실행 -->

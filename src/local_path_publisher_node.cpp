@@ -35,11 +35,20 @@ public:
 private:
   void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
     geometry_msgs::Pose current_pose = msg->pose.pose;
-    int closest_index = manager_.findClosestWaypoint(current_pose);
+  int closest_index = manager_.findClosestWaypoint(current_pose);
     if (closest_index == -1) {
       ROS_WARN_THROTTLE(1.0, "[local_path_publisher] No closest waypoint found.");
       return;
     }
+
+    // Terminal logging: current pose and closest waypoint info
+    const wp::Waypoint closest_wp = manager_.getWaypoint(closest_index);
+    ROS_INFO("[local_path_publisher] pose=(%.3f, %.3f)  closest_idx=%d  wp=(%.3f, %.3f)",
+                      current_pose.position.x,
+                      current_pose.position.y,
+                      closest_index,
+                      closest_wp.pose.position.x,
+                      closest_wp.pose.position.y);
 
     std::vector<wp::Waypoint> local_path = manager_.extractLocalPath(closest_index, path_publish_size_);
     nav_msgs::Path path_msg;
@@ -62,9 +71,9 @@ private:
     arrow.action = visualization_msgs::Marker::ADD;
     arrow.pose = current_pose;
 
-    arrow.scale.x = 2.0;  // 길이
-    arrow.scale.y = 0.3;
-    arrow.scale.z = 0.3;
+    arrow.scale.x = 3.0;  // 길이
+    arrow.scale.y = 1.0;
+    arrow.scale.z = 1.0;
 
     arrow.color.r = 0.2;
     arrow.color.g = 1.0;

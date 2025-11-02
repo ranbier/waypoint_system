@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <limits>
 #include <cmath>
+// #include <algorithm>
 
 namespace fs = std::filesystem;
 
@@ -79,21 +80,25 @@ int WaypointManager::findClosestWaypoint(const geometry_msgs::Pose& pose) const 
   if (all_paths_.empty()) return -1;
 
   const auto& path = all_paths_[path_number_];
+  const int path_size = static_cast<int>(path.size());
+  if (path_size == 0) return -1;
+
   int closest_index = -1;
   double min_dist = std::numeric_limits<double>::max();
-
-  for (size_t i = 0; i < path.size(); ++i) {
+  for (int i = 0; i < path_size; ++i) {
     double dx = pose.position.x - path[i].pose.position.x;
     double dy = pose.position.y - path[i].pose.position.y;
     double dist = dx * dx + dy * dy;
     if (dist < min_dist) {
       min_dist = dist;
-      closest_index = static_cast<int>(i);
+      closest_index = i;
     }
   }
 
   return closest_index;
 }
+
+// Progressive search and auto-wrap logic removed to restore original behavior
 
 std::vector<Waypoint> WaypointManager::extractLocalPath(int start_index, int size) const {
   std::vector<Waypoint> local;
@@ -118,7 +123,7 @@ std::vector<Waypoint> WaypointManager::extractLocalPath(int start_index, int siz
 Waypoint WaypointManager::getWaypoint(int index) const {
   if (all_paths_.empty()) return Waypoint();
 
-  const auto& path = all_paths_[0];
+  const auto& path = all_paths_[path_number_];
   if (index >= 0 && index < static_cast<int>(path.size())) {
     return path[index];
   }
@@ -148,5 +153,7 @@ void WaypointManager::setActivePathNumber(int number) {
 int WaypointManager::getActivePathNumber() const {
   return path_number_;
 }
+
+
 
 }  // namespace waypoint_system

@@ -35,11 +35,21 @@ public:
 private:
   void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
     geometry_msgs::Pose current_pose = msg->pose.pose;
-    int closest_index = manager_.findClosestWaypoint(current_pose);
+  int closest_index = manager_.findClosestWaypoint(current_pose);
     if (closest_index == -1) {
       ROS_WARN_THROTTLE(1.0, "[local_path_publisher] No closest waypoint found.");
       return;
     }
+
+    // Terminal logging: current pose and closest waypoint info
+    const wp::Waypoint closest_wp = manager_.getWaypoint(closest_index);
+    ROS_INFO_THROTTLE(0.1,
+                      "[local_path_publisher] pose=(%.3f, %.3f)  closest_idx=%d  wp=(%.3f, %.3f)",
+                      current_pose.position.x,
+                      current_pose.position.y,
+                      closest_index,
+                      closest_wp.pose.position.x,
+                      closest_wp.pose.position.y);
 
     std::vector<wp::Waypoint> local_path = manager_.extractLocalPath(closest_index, path_publish_size_);
     nav_msgs::Path path_msg;
@@ -84,7 +94,7 @@ private:
   }
 
   void pathNumberCallback(const std_msgs::Int32::ConstPtr& msg) {
-    manager_.setActivePathNumber(msg->data);
+  manager_.setActivePathNumber(msg->data);
     ROS_INFO("[local_path_publisher] Active path number changed to %d", msg->data);
   }
 

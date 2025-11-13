@@ -1,3 +1,3 @@
 # waypoint_system
-wayponint loading
+waypoint loading
 you can use this for tracking waypoints

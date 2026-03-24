@@ -2,7 +2,27 @@
 
 # 공통 설정값 (모든 대회 공통)
 
-path_publish_size: 200        # local path로 publish할 waypoint 수
+path_publish_size_: 200        # local path로 publish할 waypoint 수
 use_heading: true             # heading 값을 사용할지 여부
 use_curvature: true           # 곡률 데이터를 사용할지 여부
 loop_path: true               # 경로가 루프 형태인지 여부
+jump_dist_m_: 6.0              # closest index 점프 방지 거리 임계값(m)
+trend_window_: 50               # 경향성 추정에 쓸 최근 segment 개수 (5~10 추천)
+extrapolate_ds_m_: 0.0         # 0이면 자동(waypoint spacing 기반), >0이면 고정 스텝(m), csv 한 인덱스에서 (x,y)의 거리 
+gap_good_required_: 3          # 정상 루프로 "복귀"하기 위한 연속 good 프레임 수
+gap_bad_required_: 2           # extrapolate "진입"하기 위한 연속 bad 프레임 수
+
+# 0306 차선보간 수정 시작
+path_switch_blend_steps_: 7
+path_switch_blend_max_points_: 80  # 0이면 전체 보간, 양수면 앞 N점만 보간
+# 0306 차선보간 수정 끝
+
+
+# *** 로 찾기
+ #//morai, erp42에 csv의 ds 따라서 수정해야함 -> 0.2, 2.0
+ #if (ds < 0.2) ds = 0.2;
+ #if (ds > 2.0) ds = 2.0;
+ 
+
+ #if (ds < 1e-3) continue;
+

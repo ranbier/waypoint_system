@@ -33,14 +33,34 @@ public:
 
   void setActivePathNumber(int number);
 
+  void setTrendWindow(int w);
+
+  void setExtrapolateDsM(double ds);
+
+  void setGapHysteresis(int good_required, int bad_required);
+
   int getActivePathNumber() const;
-  mutable int ex_closest_index = -1;
+
+  void setJumpDistM(double m);
 
 private:
   std::vector<std::vector<waypoint_system::Waypoint>> all_paths_;
   std::vector<std::string> path_names_;
   bool loop_enabled_ = false;
   int path_number_ = 0;
+  double jump_dist_m_ = 6.0;
+  mutable bool runtime_extrapolate_ = false; 
+
+  mutable int ex_closest_index = -1;
+
+  int trend_window_ = 8;
+  double extrapolate_ds_m_ = 0.0;   // 0이면 자동
+
+  mutable int gap_good_cnt_ = 0;   // gap <= dist2 연속 <- config
+  mutable int gap_bad_cnt_  = 0;   // gap >  dist2 연속
+
+  int gap_good_required_ = 3;      // 정상루프 복귀 조건
+  int gap_bad_required_  = 2;      // extrapolate 진입 조건
 
   // index, x, y, mission_state 형식의 CSV 파일 파싱
   std::vector<waypoint_system::Waypoint> loadCsvFile(const std::string& filepath);
